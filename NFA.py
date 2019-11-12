@@ -11,7 +11,7 @@ class NFA:
             self.transTable.append([None for s in range(size)])
 
     def copy(self):
-        new_nfa = NFA(0,0,0)
+        new_nfa = NFA(2,0,1)
         new_nfa.size = self.size
         new_nfa.initial = self.initial
         new_nfa.final = self.final
@@ -82,15 +82,65 @@ class NFA:
                         result.append(i)
         return result
 
+def build_NFA_Basic(inp):
+    basic = NFA(2,0,1)
+    basic.addTrans(0,1,inp)
+
+    return basic
+
+def build_NFA_Alter(nfa1, nfa2):
+    copy_nfa1 = nfa1.copy()
+    copy_nfa2 = nfa2.copy()
+
+    copy_nfa1.shiftStates(1)
+    copy_nfa2.shiftStates(copy_nfa1.size)
+
+    new_nfa = copy_nfa2.copy()
+    new_nfa.fillStates(copy_nfa1)
+    new_nfa.addTrans(0, copy_nfa1.initial, 'EPS')
+    new_nfa.addTrans(0, copy_nfa2.initial, 'EPS')
+    new_nfa.initial = 0
+
+    new_nfa.appendEmptyState()
+    new_nfa.final = new_nfa.size - 1
+
+    new_nfa.addTrans(copy_nfa1.final, new_nfa.final, 'EPS')
+    new_nfa.addTrans(copy_nfa2.final, new_nfa.final, 'EPS')
+
+    return new_nfa
+
+def build_NFA_Concat(nfa1_c, nfa2_c):
+    nfa1 = nfa1_c.copy()
+    nfa2 = nfa2_c.copy()
+
+    nfa2.shiftStates(nfa1.size - 1)
+    nfa2.fillStates(nfa1)
+
+    new_nfa = nfa2.copy()
+    new_nfa.initial = nfa1.initial
+
+    return new_nfa
+
+def build_NFA_Star(nfa):
+    new_nfa = nfa.copy()
+
+    new_nfa.shiftStates(1)
+    new_nfa.appendEmptyState()
+
+    new_nfa.addTrans(0, new_nfa.initial, 'EPS')
+    new_nfa.addTrans(0, new_nfa.size - 1, 'EPS')
+    new_nfa.addTrans(new_nfa.final, new_nfa.initial, 'EPS')
+    new_nfa.addTrans(new_nfa.final, new_nfa.size - 1, 'EPS')
+
+    new_nfa.initial = 0
+    new_nfa.final = new_nfa.size - 1
+
+    return new_nfa
 
 if __name__ == "__main__":
     nfa = NFA(2,0,1)
     nfa.addTrans(0,1,'a')
-    nfa.shiftStates(1)
     nfa1 = NFA(2,0,1)
     nfa1.addTrans(0,1,'b')
-    nfa.fillStates(nfa1)
-    nfa.appendEmptyState()
-    nfa.addTrans(0,2,'a')
+    nfa = build_NFA_Star(nfa)
     nfa.show()
-    print(nfa.move([0,1],'a'))
