@@ -1,5 +1,24 @@
 import NFA
 
+class Scanner:
+    def init(self, data_):
+        self.data = _preprocess(data_)
+        self.next = 0
+
+    def peek(self):
+        return self.data[self.next] if self.next < len(self.data) else 0
+
+    def pop(self):
+        cur = self.peek()
+        if( self.next < len(self.data) ):
+            self.next += 1
+        return cur
+
+    def get_pos(self):
+        return self.next
+
+
+my_scanner = Scanner()
 
 class ParseNode:
     def __init__(self, type_, data_, left_, right_):
