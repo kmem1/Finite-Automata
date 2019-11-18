@@ -82,13 +82,13 @@ class NFA:
                         result.append(i)
         return result
 
-def build_NFA_Basic(inp):
+def build_nfa_basic(inp):
     basic = NFA(2,0,1)
     basic.addTrans(0,1,inp)
 
     return basic
 
-def build_NFA_Alter(nfa1, nfa2):
+def build_nfa_alter(nfa1, nfa2):
     copy_nfa1 = nfa1.copy()
     copy_nfa2 = nfa2.copy()
 
@@ -109,7 +109,7 @@ def build_NFA_Alter(nfa1, nfa2):
 
     return new_nfa
 
-def build_NFA_Concat(nfa1_c, nfa2_c):
+def build_nfa_concat(nfa1_c, nfa2_c):
     nfa1 = nfa1_c.copy()
     nfa2 = nfa2_c.copy()
 
@@ -121,7 +121,7 @@ def build_NFA_Concat(nfa1_c, nfa2_c):
 
     return new_nfa
 
-def build_NFA_Star(nfa):
+def build_nfa_star(nfa):
     new_nfa = nfa.copy()
 
     new_nfa.shiftStates(1)
@@ -136,11 +136,3 @@ def build_NFA_Star(nfa):
     new_nfa.final = new_nfa.size - 1
 
     return new_nfa
-
-if __name__ == "__main__":
-    nfa = NFA(2,0,1)
-    nfa.addTrans(0,1,'a')
-    nfa1 = NFA(2,0,1)
-    nfa1.addTrans(0,1,'b')
-    nfa = build_NFA_Star(nfa)
-    nfa.show()
