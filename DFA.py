@@ -26,6 +26,7 @@ class DFA:
             for input in self.transTable[trans]:
                 print('[', trans, ',', input, '] =', self.transTable[trans][input])
 
+
 if __name__ == '__main__':
     dfa = DFA()
     dfa.transTable = {3: {'i': 5, 'a': 4}, 4: {'b': 7}}

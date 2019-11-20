@@ -149,6 +149,5 @@ if __name__ == '__main__':
         raise Exception('Parse error: unexpected char')
 
     nfa = tree_to_nfa(n)
-    #print_tree(n,2)
-    #nfa.show()
-    print(build_eps_closure(nfa, []))
+    dfa = subset_construct(nfa)
+    print(dfa.simulate('abababababbbabb'))

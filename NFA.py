@@ -16,6 +16,7 @@ class NFA:
         new_nfa.initial = self.initial
         new_nfa.final = self.final
         new_nfa.transTable = self.transTable
+        new_nfa.inputs = self.inputs
         return new_nfa
 
     def isLegalState(self, s):
@@ -136,3 +137,4 @@ def build_nfa_star(nfa):
     new_nfa.final = new_nfa.size - 1
 
     return new_nfa
+
