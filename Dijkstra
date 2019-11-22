@@ -1,0 +1,42 @@
+class Tree:
+    def __init__(self):
+        self.vertexes = []
+
+    def addEdge(self, f, s, weight):
+        f.transTable[s] = weight
+        s.transTable[f] = weight
+        if f not in self.vertexes:
+            self.vertexes.append(f)
+        if s not in self.vertexes:
+            self.vertexes.append(s)
+
+    def Show(self):
+        print('Vertexes: ', self.vertexes)
+        for vert in self.vertexes:
+            for a in vert.transTable:
+                print(vert.name, '-->', a.name, '=' , vert.transTable[a])
+
+class Node:
+    def __init__(self, name):
+        self.name = name
+        self.transTable = {}
+        self.weight = float("inf")
+
+
+tree = Tree()
+A1 = Node(1)
+A2 = Node(2)
+A3 = Node(3)
+A4 = Node(4)
+A5 = Node(5)
+A6 = Node(6)
+tree.addEdge(A1, A3, 9)
+tree.addEdge(A1, A2, 7)
+tree.addEdge(A2, A4, 15)
+tree.addEdge(A1, A6, 14)
+tree.addEdge(A2, A3, 10)
+tree.addEdge(A3, A6, 2)
+tree.addEdge(A3, A4, 11)
+tree.addEdge(A5, A6, 9)
+tree.addEdge(A4, A5, 6)
+tree.Show()
